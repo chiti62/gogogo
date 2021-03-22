@@ -7,15 +7,21 @@ import (
 	"time"
 
 	"github.com/chiti62/gogogo/ch2/global"
+	"github.com/chiti62/gogogo/ch2/internal/model"
 	"github.com/chiti62/gogogo/ch2/internal/routers"
 	"github.com/chiti62/gogogo/ch2/pkg/setting"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
+	fmt.Errorf()
 	err := setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err) //os.Exit, no stacktrace
+	}
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 }
 
@@ -53,5 +59,15 @@ func setupSetting() error {
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
+	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
