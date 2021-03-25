@@ -1,0 +1,53 @@
+definitions:
+  errcode.Error:
+    type: object
+info:
+  contact:
+    name: ChinKai Ting
+    url: http://www.swagger.io/support
+  description: Go 再強一點
+  termsOfService: http://swagger.io/terms
+  title: gobook-ch2
+  version: "1.0"
+paths:
+  /api/v1/tags:
+    get:
+      parameters:
+      - description: tag name
+        in: query
+        maxLength: 100
+        name: name
+        type: string
+      - default: 1
+        description: status
+        enum:
+        - 0
+        - 1
+        in: query
+        name: state
+        type: integer
+      - description: page num
+        in: query
+        name: page
+        type: integer
+      - description: page display num
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: Getting list of tags
+swagger: "2.0"

@@ -30,6 +30,13 @@ func init() {
 	}
 }
 
+// @title gobook-ch2
+// @version 1.0
+// @description Go 再強一點
+// @termsOfService http://swagger.io/terms
+// @contact.name ChinKai Ting
+// @contact.url http://www.swagger.io/support
+// @contact.email
 func main() {
 	logrus.Infof("testing: %s", "log")
 	gin.SetMode(global.ServerSetting.RunMode)
