@@ -11,10 +11,11 @@ import (
 	"github.com/chiti62/gogogo/ch2/internal/routers"
 	"github.com/chiti62/gogogo/ch2/pkg/setting"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func init() {
-	fmt.Errorf()
 	err := setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err) //os.Exit, no stacktrace
@@ -23,9 +24,14 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
+	}
 }
 
 func main() {
+	logrus.Infof("testing: %s", "log")
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
@@ -51,7 +57,7 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
-	err = setting.ReadSection("Server", &global.DatabaseSetting)
+	err = setting.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {
 		return err
 	}
@@ -69,5 +75,17 @@ func setupDBEngine() error {
 		return err
 	}
 
+	return nil
+}
+
+func setupLogger() error {
+	fileName := global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	logger := &lumberjack.Logger{
+		Filename:  fileName,
+		MaxSize:   500,
+		MaxAge:    10,
+		LocalTime: true,
+	}
+	logrus.SetOutput(logger)
 	return nil
 }
