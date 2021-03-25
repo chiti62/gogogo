@@ -31,7 +31,6 @@ func init() {
 }
 
 func main() {
-	//test revert
 	logrus.Infof("testing: %s", "log")
 	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
