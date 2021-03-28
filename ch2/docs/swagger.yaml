@@ -1,5 +1,44 @@
 definitions:
+  app.Pager:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total_rows:
+        type: integer
+    type: object
   errcode.Error:
+    type: object
+  model.Tag:
+    properties:
+      create_time:
+        type: integer
+      created_by:
+        type: string
+      delete_time:
+        type: integer
+      id:
+        type: integer
+      is_del:
+        type: integer
+      name:
+        type: string
+      state:
+        type: integer
+      update_time:
+        type: integer
+      updated_by:
+        type: string
+    type: object
+  model.TagSwagger:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/model.Tag'
+        type: array
+      pager:
+        $ref: '#/definitions/app.Pager'
     type: object
 info:
   contact:
@@ -40,7 +79,7 @@ paths:
         "200":
           description: success
           schema:
-            $ref: '#/definitions/errcode.Error'
+            $ref: '#/definitions/model.TagSwagger'
         "400":
           description: Bad request
           schema:

@@ -1,7 +1,12 @@
 package routers
 
 import (
-	_ "github.com/chiti62/gogogo/ch2/docs"
+	"net/http"
+
+	_ "github.com/chiti62/gogogo/ch2/docs" //failed to load spec
+	"github.com/chiti62/gogogo/ch2/global"
+	"github.com/chiti62/gogogo/ch2/internal/middleware"
+	"github.com/chiti62/gogogo/ch2/internal/routers/api"
 	v1 "github.com/chiti62/gogogo/ch2/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -12,9 +17,14 @@ func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.Use(middleware.Translations())
+
 	article := v1.NewArticle()
 	tag := v1.NewTag()
+	upload := api.NewUpload()
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.POST("/upload/file", upload.UploadFile)
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use()
 	{

@@ -1,8 +1,8 @@
 package global
 
-import "database/sql"
+import "github.com/jinzhu/gorm"
 
 var (
-	// DBEngine *gorm.DB
-	DBEngine *sql.DB
+	DBEngine *gorm.DB
+	// DBEngine *sql.DB
 )
