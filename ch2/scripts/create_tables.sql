@@ -62,3 +62,18 @@ CREATE TABLE IF NOT EXISTS blog_article(
 )
 COLLATE='utf8mb4_unicode_ci'
 ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS blog_auth (
+    id int(10) unsigned NOT NULL AUTO_INCREMENT,
+    app_key varchar(20) DEFAULT '' COMMENT 'Key',
+    app_secret varchar(50) DEFAULT '' COMMENT 'Secret',
+    create_time int(10) unsigned DEFAULT '0',
+    created_by varchar(100) DEFAULT '',
+    update_time int(10) unsigned DEFAULT '0',
+    updated_by varchar(100) DEFAULT '',
+    delete_time int(10) unsigned DEFAULT '0',
+    is_del tinyint(3) unsigned DEFAULT '0' COMMENT '0: not deleted 1: deleted',
+  PRIMARY KEY (id) USING BTREE
+)
+COLLATE='utf8mb4_unicode_ci'
+ENGINE=InnoDB;
